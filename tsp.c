@@ -103,7 +103,6 @@ void tsp(struct matriz m, int* caminho) {
 
 
 void imprimir_matriz(struct matriz m) {
-    //linha();
     printf("MATRIZ LIDA\n");
 
     for(int i = 0; i < m.numero_elementos; i++) {
@@ -114,7 +113,6 @@ void imprimir_matriz(struct matriz m) {
         printf("\n");
     }
 
-    //linha();
 }
 
 
