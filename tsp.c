@@ -39,7 +39,6 @@ int main(int argc, char *argv[]) {
 
     
 }
-//-----------------------------------------------------------------------------
 
 void ler_arquivo(struct matriz* m, char* arquivo) {
     FILE* fp = fopen(arquivo, "r");
@@ -59,11 +58,12 @@ void ler_arquivo(struct matriz* m, char* arquivo) {
     fclose(fp);
 }
 
-
+//calcular o custo do caminho
 int calcular_custo(struct matriz m, int* caminho) {
     int custo = 0;
 
     for(int i = 0; i < m.numero_elementos; i++) {
+        //custo de onde ta pra onde vai
         custo = custo + m.elementos[caminho[i]][caminho[i + 1]];
     }
 
@@ -74,7 +74,7 @@ int calcular_custo(struct matriz m, int* caminho) {
 void tsp(struct matriz m, int* caminho) {
     int *inseridos = malloc(m.numero_elementos * sizeof(int));
 
-    for(int i = 0; i < m.numero_elementos; i++) {
+    for(int i = 0; i < m.numero_elementos; i++) { //iniciando os valores com FALSE (nao foi inserido)
         inseridos[i] = FALSE;
     }
 
@@ -82,20 +82,23 @@ void tsp(struct matriz m, int* caminho) {
     inseridos[0] = TRUE;
 
     for(int i = 0; i < m.numero_elementos; i++) {
-        int valor_referencia = INT_MAX;
-        int vizinho_selecionado = 0;
+        int valor_referencia = INT_MAX; //valor alto
+        int vizinho_selecionado = 0; 
 
         for(int j = 0; j < m.numero_elementos; j++) {
-            if(!inseridos[j] && valor_referencia > m.elementos[i][j]) {
+           //se não tiver inserido e o valor de referencia que eu já tinha é maior, troca
+            if(!inseridos[j] && valor_referencia > m.elementos[i][j]) { 
+                //seleciona o vizinho e atualiza o valor de referencia
                 vizinho_selecionado = j;
                 valor_referencia = m.elementos[i][j];
             }
         }
-
-        caminho[i + 1] = vizinho_selecionado;
+        //o prox item a ser visitado é o que escolhi anteriormente
+        caminho[i + 1] = vizinho_selecionado; 
+        //adiciona no vetor de visitados
         inseridos[vizinho_selecionado] = TRUE;
     }
-
+    //retornar a origem
     caminho[m.numero_elementos] = 0;
 
     free(inseridos);
